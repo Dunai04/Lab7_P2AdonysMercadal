@@ -134,9 +134,19 @@ public class principal extends javax.swing.JFrame {
         newFile.setText("File");
 
         jMenuItem1.setText("New File");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         newFile.add(jMenuItem1);
 
         Importar.setText("Import File");
+        Importar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImportarActionPerformed(evt);
+            }
+        });
         newFile.add(Importar);
 
         jMenuBar1.add(newFile);
@@ -146,6 +156,11 @@ public class principal extends javax.swing.JFrame {
         jMenu4.setText("Clear");
 
         limpiarlinea.setText("Clear Command Line");
+        limpiarlinea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiarlineaActionPerformed(evt);
+            }
+        });
         jMenu4.add(limpiarlinea);
 
         limpiartabla.setText("Clear Table");
@@ -194,17 +209,51 @@ public class principal extends javax.swing.JFrame {
 
     private void Jbutton_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jbutton_enterMouseClicked
         String comando = jtext_cmd.getText();
-        if(comando.startsWith("./load")){
-           
-        }else if(comando.startsWith("./create")){
-           
-        }else if(comando.startsWith("./clear")){
+        if(comando.startsWith("./load ")){
+            String[] partes = comando.split(" ");
+            String nombreArchivo = partes[1];
+            if(!nombreArchivo.contains(".txt")){
+                nombreArchivo = nombreArchivo+".txt";
+            }
             
-        }else if(comando.startsWith("./refresh")){
+        }else if(comando.startsWith("./create") && comando.endsWith("-single")){
+           String[] partes = comando.split(" ");
+            String nombreArchivo = partes[1];
+            if(!nombreArchivo.contains(".txt")){
+                nombreArchivo = nombreArchivo+".txt";
+            }
+            
+        }else if(comando.equals("./clear")){
+            
+        }else if(comando.equals("./refresh")){
            
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "El comando no existe");
+            jtext_cmd.setText(" ");
         }
         
     }//GEN-LAST:event_Jbutton_enterMouseClicked
+
+    private void limpiarlineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarlineaActionPerformed
+        jtext_cmd.setText(" ");
+    }//GEN-LAST:event_limpiarlineaActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String nombreArchivoNuevo =JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
+        if (!nombreArchivoNuevo.contains(".txt")){
+            nombreArchivoNuevo = nombreArchivoNuevo+".txt";
+        }
+        nombreArchivoNuevo = nombreArchivoNuevo+".txt";
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void ImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportarActionPerformed
+        String nombreArchivo =JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
+        if (!nombreArchivo.contains(".txt")){
+            nombreArchivo = nombreArchivo+".txt";
+        }
+       
+        
+    }//GEN-LAST:event_ImportarActionPerformed
 
     /**
      * @param args the command line arguments
