@@ -1,5 +1,7 @@
 package lab7p2adonysmercadal;
 
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -57,9 +59,14 @@ public class principal extends javax.swing.JFrame {
                 jtext_cmdActionPerformed(evt);
             }
         });
-        jPanel1.add(jtext_cmd, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 29, 850, 35));
+        jPanel1.add(jtext_cmd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 850, 35));
 
         Jbutton_enter.setText("Enter");
+        Jbutton_enter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jbutton_enterMouseClicked(evt);
+            }
+        });
         jPanel1.add(Jbutton_enter, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 110, -1));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("CSVs");
@@ -122,7 +129,7 @@ public class principal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(Tabla);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 90, 700, 510));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, 700, 510));
 
         newFile.setText("File");
 
@@ -184,6 +191,20 @@ public class principal extends javax.swing.JFrame {
     private void jtext_cmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtext_cmdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtext_cmdActionPerformed
+
+    private void Jbutton_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jbutton_enterMouseClicked
+        String comando = jtext_cmd.getText();
+        if(comando.startsWith("./load")){
+           
+        }else if(comando.startsWith("./create")){
+           
+        }else if(comando.startsWith("./clear")){
+            
+        }else if(comando.startsWith("./refresh")){
+           
+        }
+        
+    }//GEN-LAST:event_Jbutton_enterMouseClicked
 
     /**
      * @param args the command line arguments

@@ -16,6 +16,7 @@ import java.util.Scanner;
  * @author adony
  */
 public class productoadmin {
+
     private ArrayList<Producto> listaProducto = new ArrayList();
     private File archivo = null;
 
@@ -38,39 +39,51 @@ public class productoadmin {
     public void setArchivo(File archivo) {
         this.archivo = archivo;
     }
-   public void cargarArchivo(){
-       Scanner n = null;
-       listaProducto = new ArrayList();
-       if(archivo.exists()){
-           try {
-               n = new Scanner(archivo);
-               n.useDelimiter(",");
-               while(n.hasNext()){
-                   listaProducto.add(new Producto(n.nextInt(), n.nextLine(), n.nextInt(), n.nextDouble(), n.nextInt(), n.nextInt()));
-               }
-           } catch (Exception e) {
-           }
-           n.close();
-       }
-   }
-   public void escribirArchivo() throws IOException{
-       FileWriter fw = null;
-       BufferedWriter bw = null;
-       try {
-           fw = new FileWriter(archivo,true);
-           bw = new BufferedWriter(fw);
-           for (Producto t : listaProducto) {
-               bw.write(t.getId()+",");
-               bw.write(t.getName()+",");
-               bw.write(t.getCategory());
-               bw.write(t.getPrice()+",");
-               bw.write(t.getAisle()+",");
-               bw.write(t.getBin()+"\n");
-           }
-           bw.flush();
-       } catch (Exception e) {
-       }
-       bw.close();
-       fw.close();
-   }
+
+    public void cargarArchivo() {
+        Scanner n = null;
+        listaProducto = new ArrayList<>();
+        if (archivo.exists()) {
+            try {
+                n = new Scanner(archivo);
+                n.useDelimiter(",");
+                while (n.hasNextLine()) {
+                    String linea = n.nextLine();
+                    String[] partes = linea.split(",");
+                    if (partes.length == 6) {
+                        int id = Integer.parseInt(partes[0]);
+                        String nombre = partes[1];
+                        int categoria = Integer.parseInt(partes[2]);
+                        double precio = Double.parseDouble(partes[3]);
+                        int aisle = Integer.parseInt(partes[4]);
+                        int bin = Integer.parseInt(partes[5]);
+                        listaProducto.add(new Producto(id, nombre, categoria, precio, aisle, bin));
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    public void escribirArchivo() throws IOException {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            fw = new FileWriter(archivo, true);
+            bw = new BufferedWriter(fw);
+            for (Producto t : listaProducto) {
+                bw.write(t.getId() + ",");
+                bw.write(t.getName() + ",");
+                bw.write(t.getCategory()+",");
+                bw.write(t.getPrice() + ",");
+                bw.write(t.getAisle() + ",");
+                bw.write(t.getBin() + "\n");
+            }
+            bw.flush();
+        } catch (Exception e) {
+        }
+        bw.close();
+        fw.close();
+    }
 }
