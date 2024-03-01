@@ -14,7 +14,8 @@ public class Lab7P2AdonysMercadal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        principal menu = new principal();
+        menu.setVisible(true);
     }
     
 }
