@@ -1,12 +1,14 @@
 package lab7p2adonysmercadal;
 
+import java.io.File;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author adony
@@ -169,6 +171,11 @@ public class principal extends javax.swing.JFrame {
         jMenu2.add(jMenu4);
 
         jMenuItem4.setText("Refresh Tree");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
@@ -209,29 +216,29 @@ public class principal extends javax.swing.JFrame {
 
     private void Jbutton_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jbutton_enterMouseClicked
         String comando = jtext_cmd.getText();
-        if(comando.startsWith("./load ")){
+        if (comando.startsWith("./load ")) {
             String[] partes = comando.split(" ");
             String nombreArchivo = partes[1];
-            if(!nombreArchivo.contains(".txt")){
-                nombreArchivo = nombreArchivo+".txt";
+            if (!nombreArchivo.contains(".txt")) {
+                nombreArchivo = nombreArchivo + ".txt";
             }
-            
-        }else if(comando.startsWith("./create") && comando.endsWith("-single")){
-           String[] partes = comando.split(" ");
+
+        } else if (comando.startsWith("./create") && comando.endsWith("-single")) {
+            String[] partes = comando.split(" ");
             String nombreArchivo = partes[1];
-            if(!nombreArchivo.contains(".txt")){
-                nombreArchivo = nombreArchivo+".txt";
+            if (!nombreArchivo.contains(".txt")) {
+                nombreArchivo = nombreArchivo + ".txt";
             }
-            
-        }else if(comando.equals("./clear")){
-            
-        }else if(comando.equals("./refresh")){
-           
-        }else{
+
+        } else if (comando.equals("./clear")) {
+
+        } else if (comando.equals("./refresh")) {
+
+        } else {
             JOptionPane.showMessageDialog(rootPane, "El comando no existe");
             jtext_cmd.setText(" ");
         }
-        
+
     }//GEN-LAST:event_Jbutton_enterMouseClicked
 
     private void limpiarlineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarlineaActionPerformed
@@ -239,21 +246,25 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_limpiarlineaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        String nombreArchivoNuevo =JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
-        if (!nombreArchivoNuevo.contains(".txt")){
-            nombreArchivoNuevo = nombreArchivoNuevo+".txt";
+        String nombreArchivoNuevo = JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
+        if (!nombreArchivoNuevo.contains(".txt")) {
+            nombreArchivoNuevo = nombreArchivoNuevo + ".txt";
         }
-        nombreArchivoNuevo = nombreArchivoNuevo+".txt";
+        nombreArchivoNuevo = nombreArchivoNuevo + ".txt";
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void ImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportarActionPerformed
-        String nombreArchivo =JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
-        if (!nombreArchivo.contains(".txt")){
-            nombreArchivo = nombreArchivo+".txt";
+        String nombreArchivo = JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
+        if (!nombreArchivo.contains(".txt")) {
+            nombreArchivo = nombreArchivo + ".txt";
         }
-       
-        
+
+
     }//GEN-LAST:event_ImportarActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        refreshArbol();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,6 +300,26 @@ public class principal extends javax.swing.JFrame {
             }
         });
     }
+
+    public void refreshArbol() {
+        String directorioRaiz = "C:\\Users\\adony\\OneDrive\\Escritorio\\lab7p2\\Lab7_P2AdonysMercadal\\Lab7P2AdonysMercadal";
+        DefaultMutableTreeNode nodoRaiz = (DefaultMutableTreeNode) arbol.getModel().getRoot();
+        cargarArchivosTxt(directorioRaiz, nodoRaiz);
+        ((DefaultTreeModel) arbol.getModel()).reload();
+    }
+
+    private static void cargarArchivosTxt(String directorio, DefaultMutableTreeNode nodoPadre) {
+        File dir = new File(directorio);
+        File[] archivos = dir.listFiles();
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                if (archivo.isFile() && archivo.getName().endsWith(".txt")) {
+                    nodoPadre.add(new DefaultMutableTreeNode(archivo.getName()));
+                }
+            }
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Importar;
