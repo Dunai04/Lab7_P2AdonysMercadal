@@ -12,16 +12,18 @@ package lab7p2adonysmercadal;
 public class Producto {
     private int id;
     private String name;
-    private int price;
+    private int category;
+    private double price;
     private int aisle;
     private int bin;
 
     public Producto() {
     }
 
-    public Producto(int id, String name, int price, int aisle, int bin) {
+    public Producto(int id, String name, int category, double price, int aisle, int bin) {
         this.id = id;
         this.name = name;
+        this.category = category;
         this.price = price;
         this.aisle = aisle;
         this.bin = bin;
@@ -43,11 +45,19 @@ public class Producto {
         this.name = name;
     }
 
-    public int getPrice() {
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -69,7 +79,9 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "id=" + id + ", name=" + name + ", price=" + price + ", aisle=" + aisle + ", bin=" + bin + '}';
+        return "Producto{" + "id=" + id + ", name=" + name + ", category=" + category + ", price=" + price + ", aisle=" + aisle + ", bin=" + bin + '}';
     }
+
+    
     
 }
