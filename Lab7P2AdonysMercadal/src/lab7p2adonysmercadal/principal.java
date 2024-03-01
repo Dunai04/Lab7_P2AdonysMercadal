@@ -233,7 +233,7 @@ public class principal extends javax.swing.JFrame {
         } else if (comando.equals("./clear")) {
 
         } else if (comando.equals("./refresh")) {
-
+            refreshArbol();
         } else {
             JOptionPane.showMessageDialog(rootPane, "El comando no existe");
             jtext_cmd.setText(" ");
@@ -304,6 +304,7 @@ public class principal extends javax.swing.JFrame {
     public void refreshArbol() {
         String directorioRaiz = "C:\\Users\\adony\\OneDrive\\Escritorio\\lab7p2\\Lab7_P2AdonysMercadal\\Lab7P2AdonysMercadal";
         DefaultMutableTreeNode nodoRaiz = (DefaultMutableTreeNode) arbol.getModel().getRoot();
+        nodoRaiz.removeAllChildren();
         cargarArchivosTxt(directorioRaiz, nodoRaiz);
         ((DefaultTreeModel) arbol.getModel()).reload();
     }
