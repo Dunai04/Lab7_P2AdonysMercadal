@@ -1,7 +1,9 @@
 package lab7p2adonysmercadal;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -114,16 +116,9 @@ public class principal extends javax.swing.JFrame {
                 "id", "name", "category", "price", "aisle", "bin"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -166,6 +161,11 @@ public class principal extends javax.swing.JFrame {
         jMenu4.add(limpiarlinea);
 
         limpiartabla.setText("Clear Table");
+        limpiartabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiartablaActionPerformed(evt);
+            }
+        });
         jMenu4.add(limpiartabla);
 
         jMenu2.add(jMenu4);
@@ -183,9 +183,19 @@ public class principal extends javax.swing.JFrame {
         jMenu3.setText("Help");
 
         estructurapro.setText("Product Structure");
+        estructurapro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                estructuraproActionPerformed(evt);
+            }
+        });
         jMenu3.add(estructurapro);
 
         comandos.setText("Commands");
+        comandos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comandosActionPerformed(evt);
+            }
+        });
         jMenu3.add(comandos);
 
         jMenuBar1.add(jMenu3);
@@ -219,8 +229,10 @@ public class principal extends javax.swing.JFrame {
         if (comando.startsWith("./load ")) {
             String[] partes = comando.split(" ");
             String nombreArchivo = partes[1];
+            cargarTablaPrinci(nombreArchivo);
             if (!nombreArchivo.contains(".txt")) {
                 nombreArchivo = nombreArchivo + ".txt";
+                cargarTablaPrinci(nombreArchivo);
             }
 
         } else if (comando.startsWith("./create") && comando.endsWith("-single")) {
@@ -231,7 +243,7 @@ public class principal extends javax.swing.JFrame {
             }
 
         } else if (comando.equals("./clear")) {
-
+            limpiarTabla();
         } else if (comando.equals("./refresh")) {
             refreshArbol();
         } else {
@@ -255,8 +267,10 @@ public class principal extends javax.swing.JFrame {
 
     private void ImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportarActionPerformed
         String nombreArchivo = JOptionPane.showInputDialog(rootPane, "Ingrese el nombre del nuevo archivo ");
+        cargarTablaPrinci(nombreArchivo);
         if (!nombreArchivo.contains(".txt")) {
             nombreArchivo = nombreArchivo + ".txt";
+            cargarTablaPrinci(nombreArchivo);
         }
 
 
@@ -265,6 +279,52 @@ public class principal extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         refreshArbol();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void limpiartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiartablaActionPerformed
+        limpiarTabla();
+    }//GEN-LAST:event_limpiartablaActionPerformed
+
+    private void comandosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comandosActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "Cargar la tabla:\n"
+                + "Inicia el programa con una tabla vacía.\n"
+                + "Carga el archivo deseado en la tabla para usar otras funciones.\n"
+                + "Comando: ./load data.txt\n"
+                + "Crear archivos:\n"
+                + "Ingresa los productos deseados en la tabla.\n"
+                + "Sigue el formato y crea tus propios archivos similares a data.txt.\n"
+                + "Especifica el nombre en la línea de comando.\n"
+                + "Comando: ./create archivo.txt -single\n"
+                + "Limpiar la tabla:\n"
+                + "Vacía todos los datos actuales de la tabla en pantalla.\n"
+                + "Comando: ./clear\n"
+                + "Cargar los árboles:\n"
+                + "Refresca los árboles del programa que muestran archivos de texto separados por comas y archivos de texto con formato JSON.\n"
+                + "Comando: ./refresh");
+    }//GEN-LAST:event_comandosActionPerformed
+
+    private void estructuraproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estructuraproActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "ID:\n"
+                + "Es un número entero que identifica el producto.\n"
+                + "Nombre:\n"
+                + "Representa el nombre del producto.\n"
+                + "Puede contener espacios.\n"
+                + "Categoría:\n"
+                + "Es un valor entero del 0 al 9.\n"
+                + "Indica la categoría del producto.\n"
+                + "Precio:\n"
+                + "Es un número real con dos posiciones decimales.\n"
+                + "Representa el precio del producto.\n"
+                + "Pasillo:\n"
+                + "Es un número entero de 3 posiciones.\n"
+                + "Indica el lugar donde se guarda el producto.\n"
+                + "Bin:\n"
+                + "Es un número entero de 3 posiciones.\n"
+                + "Indica el lugar exacto dentro del pasillo donde se almacena el producto.");
+    }//GEN-LAST:event_estructuraproActionPerformed
+    public void limpiarTabla() {
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+    }
 
     /**
      * @param args the command line arguments
@@ -302,14 +362,14 @@ public class principal extends javax.swing.JFrame {
     }
 
     public void refreshArbol() {
-        String directorioRaiz = "C:\\Users\\adony\\OneDrive\\Escritorio\\lab7p2\\Lab7_P2AdonysMercadal\\Lab7P2AdonysMercadal";
+        String directorioRaiz = "../Lab7P2AdonysMercadal";
         DefaultMutableTreeNode nodoRaiz = (DefaultMutableTreeNode) arbol.getModel().getRoot();
         nodoRaiz.removeAllChildren();
         cargarArchivosTxt(directorioRaiz, nodoRaiz);
         ((DefaultTreeModel) arbol.getModel()).reload();
     }
 
-    private static void cargarArchivosTxt(String directorio, DefaultMutableTreeNode nodoPadre) {
+    public static void cargarArchivosTxt(String directorio, DefaultMutableTreeNode nodoPadre) {
         File dir = new File(directorio);
         File[] archivos = dir.listFiles();
         if (archivos != null) {
@@ -321,6 +381,19 @@ public class principal extends javax.swing.JFrame {
         }
     }
 
+    public void cargarTablaPrinci(String rutaarchivo) {
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        productoadmin prodadmin = new productoadmin(rutaarchivo);
+        try {
+            model = prodadmin.cargarTabla(model);
+            Tabla.setModel(model);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Importar;

@@ -4,12 +4,16 @@
  */
 package lab7p2adonysmercadal;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,32 +44,37 @@ public class productoadmin {
         this.archivo = archivo;
     }
 
-    public void cargarArchivo() {
-        Scanner n = null;
-        listaProducto = new ArrayList<>();
-        if (archivo.exists()) {
-            try {
-                n = new Scanner(archivo);
-                n.useDelimiter(",");
-                while (n.hasNextLine()) {
-                    String linea = n.nextLine();
-                    String[] partes = linea.split(",");
-                    if (partes.length == 6) {
-                        int id = Integer.parseInt(partes[0]);
-                        String nombre = partes[1];
-                        int categoria = Integer.parseInt(partes[2]);
-                        double precio = Double.parseDouble(partes[3]);
-                        int aisle = Integer.parseInt(partes[4]);
-                        int bin = Integer.parseInt(partes[5]);
-                        listaProducto.add(new Producto(id, nombre, categoria, precio, aisle, bin));
-                    }
-                }
-            } catch (Exception e) {
+    public DefaultTableModel cargarTabla(DefaultTableModel model) throws FileNotFoundException {
+        if (!archivo.exists()) {
+            throw new FileNotFoundException("El archivo no existe.");
+        }
 
+        model.setRowCount(0);
+
+        try (Scanner n = new Scanner(archivo)) {
+            while (n.hasNextLine()) {
+                String linea = n.nextLine();
+                String[] partes = linea.split(",");
+                if (partes.length == 6) {
+                    model.addRow(partes);
+                } else {
+                    throw new IllegalStateException("El archivo esta mal estructurado");
+                }
             }
         }
+        return model;
+
     }
 
+    public void cargarArchivo() throws IOException {
+        BufferedReader bf = new BufferedReader(new FileReader(archivo.getName()));
+        String s;
+        while ((s = bf.readLine()) != null) {
+            String[] tokens = s.split(",");
+            listaProducto.add(new Producto(Integer.parseInt(tokens[0]), tokens[1], Integer.parseInt(tokens[2]), Double.parseDouble(tokens[3]), Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5])));
+        }
+    }
+    
     public void escribirArchivo() throws IOException {
         FileWriter fw = null;
         BufferedWriter bw = null;
@@ -75,7 +84,7 @@ public class productoadmin {
             for (Producto t : listaProducto) {
                 bw.write(t.getId() + ",");
                 bw.write(t.getName() + ",");
-                bw.write(t.getCategory()+",");
+                bw.write(t.getCategory() + ",");
                 bw.write(t.getPrice() + ",");
                 bw.write(t.getAisle() + ",");
                 bw.write(t.getBin() + "\n");

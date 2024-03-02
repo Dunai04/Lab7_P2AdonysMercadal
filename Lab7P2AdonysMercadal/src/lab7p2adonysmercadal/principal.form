@@ -49,6 +49,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Clear Table"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="limpiartablaActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -71,11 +74,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Product Structure"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="estructuraproActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="comandos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Commands"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comandosActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -192,12 +201,12 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="6" rowCount="30">
-                    <Column editable="false" title="id" type="java.lang.Integer"/>
-                    <Column editable="false" title="name" type="java.lang.String"/>
-                    <Column editable="false" title="category" type="java.lang.Integer"/>
-                    <Column editable="false" title="price" type="java.lang.Double"/>
-                    <Column editable="false" title="aisle" type="java.lang.Integer"/>
-                    <Column editable="false" title="bin" type="java.lang.Integer"/>
+                    <Column editable="false" title="id" type="java.lang.Object"/>
+                    <Column editable="false" title="name" type="java.lang.Object"/>
+                    <Column editable="false" title="category" type="java.lang.Object"/>
+                    <Column editable="false" title="price" type="java.lang.Object"/>
+                    <Column editable="false" title="aisle" type="java.lang.Object"/>
+                    <Column editable="false" title="bin" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
